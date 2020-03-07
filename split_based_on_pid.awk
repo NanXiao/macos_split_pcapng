@@ -1,8 +1,8 @@
 #!/usr/bin/awk -f
 
 BEGIN {
-	capture_file_name=ENVIRON["CAPTURE_FILE_NAME"]
-	split_dir_name=ENVIRON["SPLIT_DIR_NAME"]
+	capture_file_name = ENVIRON["CAPTURE_FILE_NAME"]
+	split_dir_name = ENVIRON["SPLIT_DIR_NAME"]
 }
 
 # Input format is:
@@ -16,11 +16,18 @@ $2 == "(proc" {
 }
 
 END {
+	# Create a sub-directory for every process in split_dir_name, and the name
+	# of sub-directory is procname-pid. Then save the extracted pcapng file of 
+	# this process in the sub-directory. So the full path of every generated 
+	# pcapng file is : split_dir_name/procname-pid/procname-pid.pcapng.
 	for (proc_id in array)
 	{	
-		split_file_name = array[proc_id] "-" proc_id ".pcapng"
-		split_cmd = "tcpdump -r " capture_file_name " -Q pid=" proc_id " -w " split_dir_name "/" split_file_name
+		sub_dir_name = array[proc_id] "-" proc_id;
+		create_sub_dir_cmd = "mkdir -p " split_dir_name "/" sub_dir_name
+		system(create_sub_dir_cmd)
+
+		split_file_name = sub_dir_name ".pcapng"
+		split_cmd = "tcpdump -r " capture_file_name " -Q pid=" proc_id " -w " split_dir_name "/" sub_dir_name "/" split_file_name
 		system(split_cmd)
 	}
 }
-
