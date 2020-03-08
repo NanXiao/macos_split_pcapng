@@ -1,6 +1,10 @@
 # macos_split_pcapng
 
-This is a simple tool which works in `macos` to split [pcapng](https://github.com/pcapng/pcapng) file based on process ID and `TCP` flow.
+This is a simple tool which works in `macOS` to split [pcapng](https://github.com/pcapng/pcapng) file based on process ID and `TCP` flow.
+
+## Dependency
+
+This tool will invoke `tshark` command, so please install [Wireshark](https://www.wireshark.org/) on your `macOS`.
 
 ## Usage
 
