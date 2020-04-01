@@ -34,7 +34,7 @@ do
 		else
 			tshark -r "${full_file_name}" \
 			-e ip.src -e tcp.srcport -e ip.dst -e tcp.dstport \
-			-e data -T fields -c 1 | ./split_based_on_tcp_flow.awk
+			-T fields tcp.stream eq "${stream}" | head -1 | ./split_based_on_tcp_flow.awk
 		fi
 		stream=$((stream + 1))
 	done
