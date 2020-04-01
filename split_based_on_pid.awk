@@ -22,7 +22,14 @@ END {
 	# pcapng file is : split_dir_name/procname-pid/procname-pid.pcapng.
 	for (proc_id in array)
 	{	
-		sub_dir_name = array[proc_id] "-" proc_id;
+		if (array[proc_id] == "")
+		{
+			sub_dir_name = proc_id;
+		}
+		else
+		{
+			sub_dir_name = array[proc_id] "-" proc_id;
+		}
 		create_sub_dir_cmd = "mkdir -p " split_dir_name "/" sub_dir_name
 		system(create_sub_dir_cmd)
 
